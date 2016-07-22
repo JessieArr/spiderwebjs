@@ -33,8 +33,9 @@ $spiderweb = (function(){
 			notes: []
 		},
 		noteDelegates: [],
-		addNoteDelegate: _addNoteDelegate
-		
+		addNoteDelegate: _addNoteDelegate,
+		windowHeight: window.innerHeight,
+		windowWidth: window.innerWidth
 	};
 	
 	function _logEvent(event){
@@ -53,7 +54,7 @@ $spiderweb = (function(){
 		spiderwebEvent.type = event.type;
 		
 		if(event.type == 'blur')		{
-			if(event.target.type == 'text'){
+			if(event.target.type != 'password' && _hasCaptureClass(event.target)){
 				spiderwebEvent.value = event.target.value;
 			}
 		}
@@ -83,6 +84,11 @@ $spiderweb = (function(){
 	
 	function _addNoteDelegate(delegate){
 		publicObject.noteDelegates.push(delegate);
+	}
+
+	var captureClass = 'spiderweb-capture';
+	function _hasCaptureClass(element) {
+    	return (' ' + element.className + ' ').indexOf(' ' + captureClass + ' ') > -1;
 	}
 	
 	var _setup = function () {
